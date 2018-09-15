@@ -53,9 +53,9 @@ def start_quiz(recipient_id):
         if "quit" in message:
             break
         if vocabs[q] in message:
-            return correct_response()
+            send_message(recipient_id, correct_response())
         else:
-            return incorrect_response()
+            send_message(recipient_id, incorrect_response())
 
     send_message(recipient_id, correct_count)
 
@@ -79,7 +79,7 @@ def receive_message():
     else:
         recipient_id, message = retrieve_id_and_message()
         print("id received: " + recipient_id)
-        send_message(recipient_id, "Please send \'start quiz\' to begin.")
+        send_message(recipient_id, "Please send \'start quiz\' to begin.") # this gets called every time a message is sent
 
         # If user sends text
         recipient_id, message = retrieve_id_and_message()
