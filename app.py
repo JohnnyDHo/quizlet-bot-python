@@ -21,7 +21,7 @@ def get_message_text():
 
 
 def wrong_text():
-    return "you are wrong"
+    return ": WRONG"
 
 
 def wrong_img():
@@ -65,7 +65,8 @@ def receive_message():
                     send_message(recipient_id, response_sent_text)
 
                 else:
-                    gen_txt = wrong_text()
+                    message1 = message['message'].get('text')
+                    gen_txt = message1 + wrong_text()
                     gen_img = wrong_img()
                     send_message(recipient_id, gen_txt)
                     send_img(recipient_id, gen_img)
