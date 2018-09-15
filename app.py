@@ -36,9 +36,9 @@ def receive_message():
     ## Handle POST requests
     else:
        output = request.get_json() ## get whatever message a user sent the bot
-       recipient_id, message = retrieve_id_and_message(output)
+       recipient_id= retrieve_id_and_message(output)
        retrieve_file(recipient_id)
-       
+
        # response_sent_text = get_message_text(message)
        # send_message(recipient_id, response_sent_text)
 
@@ -52,9 +52,10 @@ def retrieve_id_and_message(output):
           for message in messaging:
             if message.get('message'):
                 recipient_id = message['sender']['id']
-                message_script = message['message'].get('text').lower()
+                # message_script = message['message'].get('text').lower()
 
-                return recipient_id, message_script
+                # return recipient_id, message_script
+                return recipient_id
 
 ## Retreiving the file (used in the modules)
 def retrieve_file(recipient_id):
