@@ -19,10 +19,22 @@ def verify_fb_token(token_sent):
 def get_message_text():
     return "Hey, it looks like you're interested in HackRice! For more information, please visit http://hack.rice.edu"
 
+def wrong_generic():
+    title = "you are wrong"
+    image_url = "<https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg>"
+    subtitle = "haha"
+    item_url = "https://hack.rice.edu/"
+    elements = [title, image_url, subtitle, item_url]
+    return elements
+
 ## Send text message to recipient
 def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) ## Sends the 'response' parameter to the user
     return "Message sent"
+
+def send_generic(recipient_id, response):
+    bot.send_generic_message(recipient_id, response)
+    return "Generic sent"
 
 ## This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
@@ -45,7 +57,11 @@ def receive_message():
                 ## If user sends text
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
-                    send_message(recipient_id, response_sent_text) 
+                    send_message(recipient_id, response_sent_text)
+
+                else:
+                    generic = wrong_generic()
+                    send_generic(recipient_id, generic)
 
     return "Message Processed"
 
