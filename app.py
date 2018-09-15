@@ -25,7 +25,7 @@ def wrong_text():
 
 
 def wrong_img():
-    return "<https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg>"
+    return "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg"
     # subtitle = "haha"
     # item_url = "https://hack.rice.edu/"
     # elements = [title, image_url, subtitle, item_url]
