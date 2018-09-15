@@ -37,24 +37,11 @@ def receive_message():
     else:
        output = request.get_json() ## get whatever message a user sent the bot
        recipient_id, message = retrieve_id_and_message(output)
-       response_sent_text = get_message_text(message)
-       send_message(recipient_id, response_sent_text)
-       '''
-       for event in output['entry']:
-          messaging = event['messaging']
-          for message in messaging:
-            if message.get('message'):
-                recipient_id = message['sender']['id'] ## Facebook Messenger ID for user so we know where to send response back to
+       retrieve_file(recipient_id)
+       
+       # response_sent_text = get_message_text(message)
+       # send_message(recipient_id, response_sent_text)
 
-                ## retrieving the user message and logging it
-                message_script = message['message'].get('text').lower()
-
-                ## getting the response message and logging it
-                response_sent_text = get_message_text(message_script)
-
-                ## send the message
-                send_message(recipient_id, response_sent_text)
-        '''
 
     return "Message Processed"
 
@@ -68,6 +55,20 @@ def retrieve_id_and_message(output):
                 message_script = message['message'].get('text').lower()
 
                 return recipient_id, message_script
+
+## Retreiving the file (used in the modules)
+def retrieve_file(recipient_id):
+    output = request.get_json() ## get whatever message a user sent the bot
+    for event in output['entry']:
+        messaging = event['messaging']
+        for message in messaging:
+            if message.get('message'):
+                if message['message'].get('attachments'):
+                    for att in message['message'].get('attachments'):
+                        print (type(att))
+                        send_message(recipient_id, "Suceed!")
+                else:
+                    send_message(recipient_id, "Plz upload!")
 
 ## Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
