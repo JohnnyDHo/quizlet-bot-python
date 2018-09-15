@@ -49,7 +49,8 @@ def receive_message():
                     send_message(recipient_id, response_sent_text)
                 elif "hi" or "hey" or "hello" in message['message'].get('text').lower():
                     send_message(recipient_id, "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'")
-
+                if "quiz" in message['message'].get('text').lower():
+                        send_message(recipient_id, "nice dude")
 
     return "Message Processed"
 
