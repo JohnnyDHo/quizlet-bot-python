@@ -39,7 +39,8 @@ def correct_response(correct_count):
 def incorrect_response():
     return "Incorrect"
 
-def run_program(recipient_id, message, state, q_index):
+def run_program(recipient_id, message):
+    global state, q_index
     if message == "start quiz":
         state = "quiz"
         send_message(recipient_id, questions[q_index])
@@ -84,7 +85,7 @@ def receive_message():
     else:
         recipient_id, message = retrieve_id_and_message()
 
-        run_program(recipient_id, message, state, q_index)
+        run_program(recipient_id, message)
 
         return "Message Processed"
 
