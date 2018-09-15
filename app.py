@@ -19,11 +19,23 @@ def verify_fb_token(token_sent):
 import random
 def get_message_text():
     return "Hi HackRice Team"
+def quiztext():
+    answer = ["dog", "cat", "giraffe"]
+    question = ["mans best friend", "says meow", "long neck"]
+    for animal in question:
+        return animal
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) ## Sends the 'response' parameter to the user
     return "Message sent"
+def quiztext():
+    question = ["mans best friend", "says meow", "long neck"]
+    for q1 in question:
+        send_message(recipient_id, q1)
+        if q1 == request.get_json()
+            send_message(recipient_id, "correct")
+    
 
 ## This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
@@ -47,7 +59,7 @@ def receive_message():
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
-                elif "hi" in message['message'].get('text').lower() or "hey" in message['message'].get('text').lower() or "hello" message['message'].get('text').lower():
+                elif "hi" in message['message'].get('text'):
                     send_message(recipient_id, "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'")
                 elif "quiz" in message['message'].get('text').lower():
                     quiz1 = quiztext()
