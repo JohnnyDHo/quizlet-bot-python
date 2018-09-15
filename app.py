@@ -18,13 +18,11 @@ a3 = "a3"
 q4 = "Question 4: answer a4"
 a4 = "a4"
 
-vocabs = {
-    q1: a1,
-    q2: a2,
-    q3: a3,
-    q4: a4
-}
-
+questions = [q1, q2, q3, q4]
+answers = [a1, a2, a3, a4]
+state = "None"
+correct_count = 0
+q_index = 0
 
 def verify_fb_token(token_sent):
     # Verifies that the token sent by Facebook matches the token sent locally
@@ -33,9 +31,6 @@ def verify_fb_token(token_sent):
     return 'Invalid verification token'
 
 # Chooses a message to send to the user
-def send_question(q):
-    return vocabs[q]
-
 def correct_response(correct_count):
     correct_count += 1
     print(correct_count)
@@ -44,47 +39,40 @@ def correct_response(correct_count):
 def incorrect_response():
     return "Incorrect"
 
-def start_quiz(recipient_id):
-    correct_count = 0
-    for q in vocabs:
-        send_message(recipient_id, q)
-        print("message sent")
-        recipient_id, message = retrieve_id_and_message()
-        send_message(recipient_id, message)
-        while not message:
-            if "quit" in message:
-                break
-            elif vocabs[q] in message:
-                send_message(recipient_id, correct_response(correct_count))
-            else:
-                send_message(recipient_id, incorrect_response())
-
-    send_message(recipient_id, correct_count)
+def run_program(recipient_id, message, state):
+    if message == "start quiz":
+        state = "quiz"
+        send_message(recipient_id, questions[q_index])
+        q_index += 1
+    if state == "quiz":
+        if "end quiz" in message:
+            send_message(recipient_id, "Your quiz has been terminated.")
+        else:
+            send_message(recipient_id, questions[q_index])
+            q_index += 1
+        
 
 # Send text message to recipient
 def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) # Sends the 'response' parameter to the user
     return "Message sent"
 
-# This endpoint will receive messages
-
-@app.route("/webhook/", methods=['GET', 'POST'])
-def quiz():
-    print("receive_message function gets called")
-    recipient_id, message = retrieve_id_and_message()
-    print("id received: " + recipient_id)
-    send_message(recipient_id, "Please send \'start quiz\' to begin.") # this gets called every time a message is sent
-
-    # If user sends text
-    recipient_id, message = retrieve_id_and_message()
-    if "start quiz" in message:
-        retrieve_id_and_message()
-        start_quiz(recipient_id)
-
-    return "Message Processed"
-
 def retrieve_id_and_message():
     print("retrieve function gets called")
+    recipient_id = ""
+    message = ""
+    output = request.get_json()  # get whatever message a user sent the bot
+    for event in output['entry']:
+        messaging = event['messaging']
+        for message in messaging:
+            if message.get('message'):
+                recipient_id = message['sender']['id']
+                message = message['message'].get('text').lower()
+    return recipient_id, message
+
+# This endpoint will receive messages
+@app.route("/webhook/", methods=['GET', 'POST'])
+def receive_message():
     # Handle GET requests
     if request.method == 'GET':
         print("GET request gets called")
@@ -93,16 +81,11 @@ def retrieve_id_and_message():
 
     # Handle POST requests
     else:
-        recipient_id = ""
-        message = ""
-        output = request.get_json()  # get whatever message a user sent the bot
-        for event in output['entry']:
-            messaging = event['messaging']
-            for message in messaging:
-                if message.get('message'):
-                    recipient_id = message['sender']['id']
-                    message = message['message'].get('text').lower()
-        return recipient_id, message
+        recipient_id, message = retrieve_id_and_message()
+
+        run_program(recipient_id, message)
+
+        return "Message Processed"
 
 # Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
