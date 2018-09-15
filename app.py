@@ -22,8 +22,7 @@ def get_message_text():
 def quiztext():
     answer = ["dog", "cat", "giraffe"]
     question = ["mans best friend", "says meow", "long neck"]
-    for animal in question:
-        return animal
+        return random.choice(answer)
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
@@ -63,7 +62,6 @@ def receive_message():
                 elif "quiz" in message['message'].get('text').lower():
                     quiz1 = quiztext()
                     send_message(recipient_id, quiz1)
-                    
                     if "dog" in message['message'].get('text').lower():
                         send_message(recipient_id, "correct")
 
