@@ -43,13 +43,16 @@ def incorrect_response():
 
 def run_program(recipient_id, message):
     global state, q_index, correct_count
-    if message == "start quiz":
-        q_index = 0
-        state = "quiz"
-        send_message(recipient_id, questions[q_index])
+    if state == "None":
+        if message == "start quiz":
+            state = "quiz"
+            send_message(recipient_id, questions[q_index])
+        else:
+            send_message(recipient_id, "Send \"start quiz\" to start quiz")
     elif state == "quiz":
         if "end quiz" in message:
             state = "done quiz"
+            q_index = 0
             send_message(recipient_id, "Your quiz has been terminated. Send \"Get Result\" to see your result.")
         else:
             if message == answers[q_index]:
@@ -61,16 +64,16 @@ def run_program(recipient_id, message):
 
             if q_index > len(questions) - 1:
                 state = "done quiz"
+                q_index = 0
                 send_message(recipient_id, "You've reached the end of the quiz.")
                 send_message(recipient_id, "Send \"Get Result\" to see your result.")
+                state = "done quiz"
             else:
                 send_message(recipient_id, questions[q_index])
 
-    elif message == "get result":
-        q_index = 0
-        send_message(recipient_id, "Your got " + correct_count + "/" + str(len(questions)) + " correct.")
-    else:
-        send_message(recipient_id, "Send \"start quiz\" to start quiz")
+    elif state == "done quiz" and message == "get result":
+        send_message(recipient_id, "Your got " + str(correct_count) + "/" + str(len(questions)) + " correct.")
+
 
 # Send text message to recipient
 def send_message(recipient_id, response):
