@@ -25,7 +25,6 @@ vocabs = {
     q4: a4
 }
 
-correct_count = 0
 
 def verify_fb_token(token_sent):
     # Verifies that the token sent by Facebook matches the token sent locally
@@ -37,20 +36,23 @@ def verify_fb_token(token_sent):
 def send_question(q):
     return vocabs[q]
 
-def correct_response():
+def correct_response(correct_count):
     correct_count += 1
-    print correct_count
+    print(correct_count)
     return "Correct"
 
 def incorrect_response():
     return "Incorrect"
 
-def start_quiz():
+def start_quiz(recipient_id):
+    correct_count = 0
+
     for q in vocabs:
         send_message(recipient_id, q)
-        if "quit" in message['message'].get('text').lower():
+        recipient_id, message = retrieve_id_and_message()
+        if "quit" in message:
             break
-        if vocabs[q] in message['message'].get('text').lower():
+        if vocabs[q] in message:
             return correct_response()
         else:
             return incorrect_response()
@@ -75,21 +77,27 @@ def receive_message():
 
     # Handle POST requests
     else:
-        output = request.get_json() # get whatever message a user sent the bot
-        for event in output['entry']:
-            messaging = event['messaging']
-            for message in messaging:
-                if message.get('message'):
-                    recipient_id = message['sender']['id'] # Facebook Messenger ID for user so we know where to send response back to
-                    print("id received: " + recipient_id)
-                send_message(recipient_id, "Please send \'start quiz\' to begin.")
+        recipient_id, message = retrieve_id_and_message()
+        print("id received: " + recipient_id)
+        send_message(recipient_id, "Please send \'start quiz\' to begin.")
 
-                # If user sends text
-                if "start quiz" in message['message'].get('text').lower():
-                    start_quiz()
+        # If user sends text
+        recipient_id, message = retrieve_id_and_message()
+        if "start quiz" in message:
+            start_quiz(recipient_id)
 
 
     return "Message Processed"
+
+def retrieve_id_and_message():
+    output = request.get_json()  # get whatever message a user sent the bot
+    for event in output['entry']:
+        messaging = event['messaging']
+        for message in messaging:
+            if message.get('message'):
+                recipient_id = message['sender']['id']
+                message = message['message'].get('text').lower()
+    return recipient_id, message
 
 # Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
