@@ -48,12 +48,12 @@ def run_program(recipient_id, message):
         users[recipient_id]["state"] = "None"
         users[recipient_id]["correct_count"] = 0
         users[recipient_id]["q_index"] = 0
-        send_message(recipient_id, "Your account is set.")
+        send_message(recipient_id, "Hi, there. Your user ID is: " + str(recipient_id))
 
     if users[recipient_id]["state"] == "None":
         if message == "start quiz":
             users[recipient_id]["state"] = "start quiz"
-            send_message(recipient_id, "Enter your username.")
+            send_message(recipient_id, questions[users[recipient_id]["q_index"]])
         else:
             send_message(recipient_id, "Send \"start quiz\" to start quiz")
 
