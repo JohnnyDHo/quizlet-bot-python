@@ -10,15 +10,15 @@ VERIFY_TOKEN = os.environ['VERIFY_TOKEN'] # Replace 'VERIFY_TOKEN' with your ver
 bot = Bot(ACCESS_TOKEN) # Create an instance of the bot
 
 q1 = "Question 1: What is Rice's mascot?"
-a1 = "Owl"
+a1 = "owl"
 q2 = "Question 2: What animal is man's best friend?"
-a2 = "Dog"
+a2 = "dog"
 q3 = "Question 3: What animal makes the sound 'meow'?"
-a3 = "Cat"
+a3 = "cat"
 q4 = "Question 4: What animal has a long neck?"
-a4 = "Giraffe"
+a4 = "giraffe"
 q5 = "Question 5: What animal has one horn?"
-a5 = "Rhino"
+a5 = "rhino"
 
 questions = [q1, q2, q3, q4, q5]
 answers = [a1, a2, a3, a4, a5]
@@ -39,7 +39,10 @@ def run_program(recipient_id, message):
     global state, q_index, correct_count
 
     if state == "None":
-        if message == "start quiz":
+        if message == "hello"
+            state == "None"
+            send_message(recipient_id, 'Welcome to Quiz-Bot. To get started send "start quiz"')
+        elif message == "start quiz":
             state = "quiz"
             send_message(recipient_id, questions[q_index])
         else:
