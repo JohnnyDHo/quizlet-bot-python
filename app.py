@@ -5,7 +5,7 @@ import os
 
 questions = ["q1", "q2"]
 answers = ["a1", "a2"]
-users_history_database = []
+users_history_database = {}
 
 app = Flask(__name__)  ## This is how we create an instance of the Flask class for our app
 
