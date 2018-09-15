@@ -17,7 +17,7 @@ def verify_fb_token(token_sent):
 
 # Chooses a message to send to the user
 def get_message_text():
-    return "Hi HackRice Team"
+    return "Hi HackRice TeamMMMMMMMMMM"
 def text():
     return "Hi, welcome to Quizlet Bot!"
 
