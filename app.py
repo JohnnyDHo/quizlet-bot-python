@@ -52,7 +52,7 @@ def run_program(recipient_id, message, state):
             q_index += 1
     else:
         send_message(recipient_id, "Send \"start quiz\" to start quiz")
-        
+
 # Send text message to recipient
 def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) # Sends the 'response' parameter to the user
@@ -84,7 +84,7 @@ def receive_message():
     else:
         recipient_id, message = retrieve_id_and_message()
 
-        run_program(recipient_id, message)
+        run_program(recipient_id, message, state)
 
         return "Message Processed"
 
