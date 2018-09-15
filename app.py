@@ -50,11 +50,11 @@ def receive_message():
                     welcome = text()
                     send_message(recipient_id, welcome)
 
-                if "poop"
+                elif "poop" in message['message'].get('text').lower():
                     poop = pooptext()
                     send_message(recipient_id, poop)
 
-                if "hackrice" in message['message'].get('text').lower():
+                elif "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
 
