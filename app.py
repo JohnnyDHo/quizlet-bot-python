@@ -45,7 +45,7 @@ def receive_message():
                 ## If user sends text
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
-                    send_message(recipient_id, response_sent_text)
+                    send_message(recipient_id, response_sent_text) 
 
     return "Message Processed"
 
