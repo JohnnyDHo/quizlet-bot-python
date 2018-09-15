@@ -84,7 +84,7 @@ def receive_message():
     else:
         recipient_id, message = retrieve_id_and_message()
 
-        run_program(recipient_id, message, state)
+        run_program(recipient_id, message, state, q_index)
 
         return "Message Processed"
 
