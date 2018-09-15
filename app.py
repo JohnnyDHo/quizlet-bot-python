@@ -72,14 +72,16 @@ def run_program(id, message):
     print("program running!!!!!")
 
     if 'start quiz' in message:
-        print("first!!!!")
+        print("quiz starting now")
         send_message(id, users_history_database[id].start_quiz())
 
     elif users_history_database[id].onGoing():
-        print("second!!!!")
+        print("quiz ongoing")
         if "end quiz" in message:
+            print("end quiz")
             send_message(id, users_history_database[id].end_quiz())
         else:
+            print("checking & sending another question")
             send_message(id, users_history_database[id].check_answer())
             send_message(id, users_history_database[id].get_question())
 
