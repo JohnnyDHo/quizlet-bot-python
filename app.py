@@ -25,7 +25,7 @@ def send_message(recipient_id, response):
     return "Message sent"
 
 ## This endpoint will receive messages
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
     print("MESSAGE RECEIVED")
     ## Handle GET requests
