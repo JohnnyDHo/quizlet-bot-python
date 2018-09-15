@@ -82,13 +82,14 @@ def run_program(id, message):
 
 ## Retreving the user id and message (used at the beginning)
 def retrieve_id_and_message(output):
-
+    print("retrieve message")
     for event in output['entry']:
         messaging = event['messaging']
         for message in messaging:
             if message.get('message'):
                 recipient_id = message['sender']['id']
                 message_script = message['message'].get('text').lower()
+                print(recipient_id, message_script)
                 return recipient_id, message_script
 
 
