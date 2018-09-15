@@ -17,7 +17,7 @@ def verify_fb_token(token_sent):
 
 # Chooses a message to send to the user
 def get_message_text():
-    return "Hey, it looks like you're interested in HackRice! For more information, please visit http://hack.rice.edu"
+    return "Hi HackRice Team"
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
