@@ -49,7 +49,7 @@ def receive_message():
 
         if recipient_id not in users_history_database:
             users_history_database[id] = Quiz(questions, answers)
-            print("id not exist")
+            print("id not existss")
             print(type(users_history_database[id]))
         else:
             print("id already exists")
