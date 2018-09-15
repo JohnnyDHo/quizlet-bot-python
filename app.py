@@ -49,9 +49,11 @@ def receive_message():
 
         if id not in users_history_database:
             users_history_database[id] = Quiz(questions, answers)
+            print ("We're here!!!!")
+            print (users_history_database)
 
         run_program(recipient_id, message)
-        print (users_history_database)
+
 
     # response_sent_text = get_message_text(message)
     # send_message(recipient_id, response_sent_text)
