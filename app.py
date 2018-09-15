@@ -45,7 +45,7 @@ def receive_message():
                 recipient_id = message['sender']['id'] ## Facebook Messenger ID for user so we know where to send response back to
 
                 ## If user sends text
-                if "hi" or "hey" in message['message'].get('text').lower():
+                if "hi" in message['message'].get('text').lower():
                     welcome = welcometext()
                     send_message(recipient_id, welcome)
                 elif "hackrice" in message['message'].get('text').lower():
