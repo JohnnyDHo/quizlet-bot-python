@@ -185,5 +185,8 @@ class Quiz():
             self.num_asked += 1
             return "Incorrect"
 
+    def ongoing(self):
+        return self.ongoing
+
     def print_history(self):
         print (self.quiz_history)
