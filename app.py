@@ -31,9 +31,9 @@ def verify_fb_token(token_sent):
     return 'Invalid verification token'
 
 # Chooses a message to send to the user
-def correct_response(correct_count):
+def correct_response():
+    global correct_count
     correct_count += 1
-    print(correct_count)
     return "Correct"
 
 def incorrect_response():
@@ -42,15 +42,20 @@ def incorrect_response():
 def run_program(recipient_id, message):
     global state, q_index
     if message == "start quiz":
+        q_index = 0
         state = "quiz"
         send_message(recipient_id, questions[q_index])
-        q_index += 1
-    if state == "quiz":
+    elif state == "quiz":
         if "end quiz" in message:
             send_message(recipient_id, "Your quiz has been terminated.")
         else:
-            send_message(recipient_id, questions[q_index])
+            if message == questions[q_index]:
+                send_message(recipient_id, correct_response())
+            else:
+                send_message(recipient_id, incorrect_response())
+
             q_index += 1
+            send_message(recipient_id, questions[q_index])
     else:
         send_message(recipient_id, "Send \"start quiz\" to start quiz")
 
