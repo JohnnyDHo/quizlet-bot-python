@@ -86,8 +86,8 @@ def run_program(id, message):
             send_message(id, users_history_database[id].get_question())
 
     else:
-        print("third!!!!")
-        send_message(id, "nothing!")
+        print("not correct input")
+        send_message(id, "input not correct")
 
 
 
