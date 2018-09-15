@@ -50,7 +50,7 @@ def run_program(recipient_id, message):
     elif state == "quiz":
         if "end quiz" in message:
             state = "done quiz"
-            send_message(recipient_id, "Your quiz has been terminated.")
+            send_message(recipient_id, "Your quiz has been terminated. Send \"Get Result\" to see your result.")
         else:
             if message == answers[q_index]:
                 send_message(recipient_id, correct_response())
@@ -62,11 +62,13 @@ def run_program(recipient_id, message):
             if q_index > len(questions) - 1:
                 state = "done quiz"
                 send_message(recipient_id, "You've reached the end of the quiz.")
+                send_message(recipient_id, "Send \"Get Result\" to see your result.")
             else:
                 send_message(recipient_id, questions[q_index])
-    elif state == "done quiz":
-        send_message(recipient_id, "Your got " + correct_count + "/" + str(len(questions)) + " correct.")
 
+    elif message == "get result":
+        q_index = 0
+        send_message(recipient_id, "Your got " + correct_count + "/" + str(len(questions)) + " correct.")
     else:
         send_message(recipient_id, "Send \"start quiz\" to start quiz")
 
