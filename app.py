@@ -41,7 +41,7 @@ def run_program(recipient_id, message):
     if state == "None":
         if message == "hello":
             send_message(recipient_id, "Welcome to Quiz-Bot. To get started send 'quiz'")
-        if message == "start quiz":
+        elif message == "start quiz":
             state = "quiz"
             send_message(recipient_id, questions[q_index])
         else:
