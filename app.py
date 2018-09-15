@@ -29,12 +29,12 @@ def quiztext():
 def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) ## Sends the 'response' parameter to the user
     return "Message sent"
-def quiztext():
-    question = ["mans best friend", "says meow", "long neck"]
-    for q1 in question:
-        send_message(recipient_id, q1)
-        if q1 == request.get_json():
-            send_message(recipient_id, "correct")
+# def quiztext():
+#     question = ["mans best friend", "says meow", "long neck"]
+#     for q1 in question:
+#         send_message(recipient_id, q1)
+#         if q1 == request.get_json():
+#             send_message(recipient_id, "correct")
 
 
 ## This endpoint will receive messages
@@ -61,9 +61,9 @@ def receive_message():
                     send_message(recipient_id, response_sent_text)
                 elif "hi" in message['message'].get('text'):
                     send_message(recipient_id, "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'")
-                elif "quiz" in message['message'].get('text').lower():
-                    quiz1 = quiztext()
-                    send_message(recipient_id, quiz1)
+                # elif "quiz" in message['message'].get('text').lower():
+                #     quiz1 = quiztext()
+                #     send_message(recipient_id, quiz1)
 
     return "Message Processed"
 
