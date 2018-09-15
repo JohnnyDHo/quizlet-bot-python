@@ -51,7 +51,7 @@ def receive_message():
             users_history_database[id] = Quiz(questions, answers)
 
         send_message(recipient_id, "here")
-        send_message(recipient_id, users_history_database)
+        send_message(recipient_id, str(users_history_database))
 
         run_program(recipient_id, message)
 
