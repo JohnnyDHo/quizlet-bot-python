@@ -9,14 +9,20 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN'] # Replace 'VERIFY_TOKEN' with your verify token
 bot = Bot(ACCESS_TOKEN) # Create an instance of the bot
 
-q1 = "q1"
+q1 = "Question 1: answer a1"
 a1 = "a1"
-q2 = "q2"
+q2 = "Question 2: answer a2"
 a2 = "a2"
+q3 = "Question 3: answer a3"
+a3 = "a3"
+q4 = "Question 4: answer a4"
+a4 = "a4"
 
 vocabs = {
     q1: a1,
-    q2: a2
+    q2: a2,
+    q3: a3,
+    q4: a4
 }
 
 correct_count = 0
@@ -33,10 +39,23 @@ def send_question(q):
 
 def correct_response():
     correct_count += 1
+    print correct_count
     return "Correct"
 
 def incorrect_response():
     return "Incorrect"
+
+def start_quiz():
+    for q in vocabs:
+        send_message(recipient_id, q)
+        if "quit" in message['message'].get('text').lower():
+            break
+        if vocabs[q] in message['message'].get('text').lower():
+            return correct_response()
+        else:
+            return incorrect_response()
+
+    send_message(recipient_id, correct_count)
 
 # Send text message to recipient
 def send_message(recipient_id, response):
@@ -44,6 +63,8 @@ def send_message(recipient_id, response):
     return "Message sent"
 
 # This endpoint will receive messages
+
+
 @app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
     print("MESSAGE RECEIVED")
@@ -60,17 +81,13 @@ def receive_message():
             for message in messaging:
                 if message.get('message'):
                     recipient_id = message['sender']['id'] # Facebook Messenger ID for user so we know where to send response back to
-                    print("id received: "+ recipient_id)
+                    print("id received: " + recipient_id)
+                send_message(recipient_id, "Please send \'start quiz\' to begin.")
 
                 # If user sends text
-                if vocabs[q1] in message['message'].get('text').lower():
-                    print("correct")
-                    response_sent_text = q1
-                    send_message(recipient_id, response_sent_text)
-                elif vocabs[q2] in message['message'].get('text').lower():
-                    print("incorrect")
-                    response_sent_text = q2
-                    send_message(recipient_id, response_sent_text)
+                if "start quiz" in message['message'].get('text').lower():
+                    start_quiz()
+
 
     return "Message Processed"
 
