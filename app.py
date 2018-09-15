@@ -46,9 +46,9 @@ def incorrect_response():
 
 def start_quiz(recipient_id):
     correct_count = 0
-
     for q in vocabs:
         send_message(recipient_id, q)
+        print("message sent")
         recipient_id, message = retrieve_id_and_message()
         if "quit" in message:
             break
@@ -69,9 +69,10 @@ def send_message(recipient_id, response):
 
 @app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
-    print("MESSAGE RECEIVED")
+    print("receive_message function gets called")
     # Handle GET requests
     if request.method == 'GET':
+        print("GET request gets called")
         token_sent = request.args.get("hub.verify_token") # Facebook requires a verify token when receiving messages
         return verify_fb_token(token_sent)
 
@@ -90,6 +91,7 @@ def receive_message():
     return "Message Processed"
 
 def retrieve_id_and_message():
+    print("retrieve function gets called")
     output = request.get_json()  # get whatever message a user sent the bot
     for event in output['entry']:
         messaging = event['messaging']
