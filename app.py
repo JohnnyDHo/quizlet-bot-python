@@ -49,7 +49,7 @@ def receive_message():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
 
-                if "hi" or "hey" in message['message'].get('text').lower():
+                if str("hi") or str("hey") in message['message'].get('text').lower():
                     welcome = welcometext()
                     send_message(recipient_id, welcome)
 
