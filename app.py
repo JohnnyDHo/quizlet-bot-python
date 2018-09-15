@@ -45,13 +45,14 @@ def receive_message():
                 recipient_id = message['sender']['id'] ## Facebook Messenger ID for user so we know where to send response back to
 
                 ## If user sends text
-                if "hi" or "hey" or "hello" in message['message'].get('text').lower():
-                    welcome = welcometext()
-                    send_message(recipient_id, welcome)
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
 
+                if "hi" or "hey" or "hello" in message['message'].get('text').lower():
+                    welcome = welcometext()
+                    send_message(recipient_id, welcome)
+                
     return "Message Processed"
 
 ## Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
