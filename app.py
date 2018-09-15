@@ -48,7 +48,7 @@ def receive_message():
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
-                elif "hi" or "hey" in message['message'].get('text').lower():
+                elif "hi" or "hey" or "hello" in message['message'].get('text').lower():
                     welcome = welcometext()
                     send_message(recipient_id, welcome)
 
