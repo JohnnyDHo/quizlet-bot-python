@@ -50,7 +50,8 @@ def receive_message():
         if id not in users_history_database:
             users_history_database[id] = Quiz(questions, answers)
 
-        print(users_history_database)
+        send_message(recipient_id, "here")
+        send_message(recipient_id, users_history_database)
 
         run_program(recipient_id, message)
 
@@ -63,9 +64,9 @@ def receive_message():
 
 def run_program(id, message):
     global users_history_database
+
     if 'start quiz' in message:
         send_message(id, users_history_database[id].start_quiz())
-
 
     elif users_history_database[id].ongoing():
         if "end quiz" in message:
