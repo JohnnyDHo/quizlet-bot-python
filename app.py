@@ -47,11 +47,12 @@ def receive_message():
 
         recipient_id, message = retrieve_id_and_message()
 
-        if id not in users_history_database:
+        if recipient_id not in users_history_database:
             users_history_database[id] = Quiz(questions, answers)
 
         send_message(recipient_id, "here")
-        send_message(recipient_id, str(users_history_database))
+        for user in users_history_database:
+            send_message(recipient_id, user)
 
         run_program(recipient_id, message)
 
