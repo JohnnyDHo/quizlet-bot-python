@@ -69,7 +69,7 @@ def send_message(recipient_id, response):
 # This endpoint will receive messages
 
 @app.route("/webhook/", methods=['GET', 'POST'])
-def receive_message():
+def quiz():
     print("receive_message function gets called")
     recipient_id, message = retrieve_id_and_message()
     print("id received: " + recipient_id)
