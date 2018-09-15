@@ -36,6 +36,10 @@ def receive_message():
     ## Handle POST requests
     else:
        output = request.get_json() ## get whatever message a user sent the bot
+       recipient_id, message = retrieve_id_and_message(output)
+       response_sent_text = get_message_text(message)
+       send_message(recipient_id, response_sent_text)
+       '''
        for event in output['entry']:
           messaging = event['messaging']
           for message in messaging:
@@ -50,8 +54,20 @@ def receive_message():
 
                 ## send the message
                 send_message(recipient_id, response_sent_text)
+        '''
 
     return "Message Processed"
+
+## Retreving the user id and message
+def retrieve_id_and_message(output):
+    for event in output['entry']:
+          messaging = event['messaging']
+          for message in messaging:
+            if message.get('message'):
+                recipient_id = message['sender']['id']
+                message_script = message['message'].get('text').lower()
+
+                return recipient_id, message_script
 
 ## Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
