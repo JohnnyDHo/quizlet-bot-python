@@ -115,7 +115,6 @@ def retrieve_id_and_message():
 def receive_message():
     # Handle GET requests
     if request.method == 'GET':
-        print("GET request gets called")
         token_sent = request.args.get("hub.verify_token")  # Facebook requires a verify token when receiving messages
         return verify_fb_token(token_sent)
 
