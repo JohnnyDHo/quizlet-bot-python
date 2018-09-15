@@ -51,9 +51,6 @@ def receive_message():
             users_history_database[id] = Quiz(questions, answers)
 
         send_message(recipient_id, "here")
-        for user in users_history_database:
-            send_message(recipient_id, user)
-
         run_program(recipient_id, message)
 
 
@@ -80,7 +77,7 @@ def run_program(id, message):
         send_message(id, "nothing!")
 
 
-# TODO
+
 
 
 ## Retreving the user id and message (used at the beginning)
@@ -110,7 +107,6 @@ def retrieve_file():
 
 
 ## Reading quiz files
-##
 def read_file(f):
     file = f.readlines()
     for index in range(0, len(file) - 1):
@@ -128,15 +124,13 @@ def read_file(f):
     return questions, answers
 
 
-
-
 class Quiz():
     def __init__(self, questions, answers):
         self.questions = questions
         self.answers = answers
 
         self.quiz_history = []
-        self.total_accuracy = None
+        self.total_accuracy = 0.0
         self.num_quizzes = 0
 
         self.question_index = -1
@@ -163,7 +157,7 @@ class Quiz():
         return "Quiz ended."
 
     def update_history(self):
-        #
+
         current_accuracy = self.num_correct / float(self.num_asked)
         self.quiz_history.append([self.num_correct, self.num_asked, current_accuracy])
         self.total_accuracy = (self.total_accuracy * self.num_quizzes + current_accuracy) / (self.num_quizzes + 1)
@@ -174,8 +168,12 @@ class Quiz():
 
     def check_answer(self, message):
         if message == self.answers[self.question_index]:
+            self.num_correct += 1
+            self.num_asked += 1
             return "Correct!"
         else:
+            self.num_asked += 1
             return "Incorrect"
 
-
+    def print_history(self):
+        print (self.quiz_history)
