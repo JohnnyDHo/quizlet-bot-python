@@ -37,16 +37,18 @@ users = {
 # Chooses a message to send to the user
 def correct_response(recipient_id):
     global users
-    users[recipient_id["correct_count"]] += 1
+    users[recipient_id]["correct_count"] += 1
     return "Correct."
 
 def run_program(recipient_id, message):
     global users, questions, answers
 
     if recipient_id not in users:
+        users[recipient_id] = {}
         users[recipient_id]["state"] = "None"
         users[recipient_id]["correct_count"] = 0
         users[recipient_id]["q_index"] = 0
+        send_message(recipient_id, "Your account is set.")
 
     if users[recipient_id]["state"] == "None":
         if message == "start quiz":
