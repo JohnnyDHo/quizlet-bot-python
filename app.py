@@ -54,7 +54,7 @@ def start_quiz(recipient_id):
             break
         elif vocabs[q] in message:
             send_message(recipient_id, correct_response())
-        elif vocabs[q] not in message:
+        else:
             send_message(recipient_id, incorrect_response())
 
     send_message(recipient_id, correct_count)
@@ -70,38 +70,38 @@ def send_message(recipient_id, response):
 @app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
     print("receive_message function gets called")
-    # Handle GET requests
-    if request.method == 'GET':
-        print("GET request gets called")
-        token_sent = request.args.get("hub.verify_token") # Facebook requires a verify token when receiving messages
-        return verify_fb_token(token_sent)
 
-    # Handle POST requests
-    else:
-        recipient_id, message = retrieve_id_and_message()
-        print("id received: " + recipient_id)
-        send_message(recipient_id, "Please send \'start quiz\' to begin.") # this gets called every time a message is sent
+    recipient_id, message = retrieve_id_and_message()
+    print("id received: " + recipient_id)
+    send_message(recipient_id, "Please send \'start quiz\' to begin.") # this gets called every time a message is sent
 
-        # If user sends text
-        recipient_id, message = retrieve_id_and_message()
-        if "start quiz" in message:
-            start_quiz(recipient_id)
+    # If user sends text
+    recipient_id, message = retrieve_id_and_message()
+    if "start quiz" in message:
+        start_quiz(recipient_id)
 
     return "Message Processed"
 
 def retrieve_id_and_message():
     print("retrieve function gets called")
+    # Handle GET requests
+    if request.method == 'GET':
+        print("GET request gets called")
+        token_sent = request.args.get("hub.verify_token")  # Facebook requires a verify token when receiving messages
+        return verify_fb_token(token_sent)
 
-    recipient_id = ""
-    message = ""
-    output = request.get_json()  # get whatever message a user sent the bot
-    for event in output['entry']:
-        messaging = event['messaging']
-        for message in messaging:
-            if message.get('message'):
-                recipient_id = message['sender']['id']
-                message = message['message'].get('text').lower()
-    return recipient_id, message
+    # Handle POST requests
+    else:
+        recipient_id = ""
+        message = ""
+        output = request.get_json()  # get whatever message a user sent the bot
+        for event in output['entry']:
+            messaging = event['messaging']
+            for message in messaging:
+                if message.get('message'):
+                    recipient_id = message['sender']['id']
+                    message = message['message'].get('text').lower()
+        return recipient_id, message
 
 # Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
