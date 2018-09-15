@@ -20,19 +20,13 @@ import random
 def get_message_text():
     return "Hi HackRice Team"
 def quiztext():
-    answer = ["dog", "cat", "giraffe"]
     question = ["mans best friend", "says meow", "long neck"]
-        return random.choice(answer)
+    return random.choice(question)
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) ## Sends the 'response' parameter to the user
     return "Message sent"
-def quiztext():
-    question = ["mans best friend", "says meow", "long neck"]
-    for q1 in question:
-        return q1
-
 
 
 ## This endpoint will receive messages
@@ -62,8 +56,6 @@ def receive_message():
                 elif "quiz" in message['message'].get('text').lower():
                     quiz1 = quiztext()
                     send_message(recipient_id, quiz1)
-                    if "dog" in message['message'].get('text').lower():
-                        send_message(recipient_id, "correct")
 
     return "Message Processed"
 
