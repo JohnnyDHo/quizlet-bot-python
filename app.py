@@ -36,10 +36,10 @@ def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response) ## Sends the 'response' parameter to the user
     return "Message sent"
 
-def send_txt_img(recipient_id, txt, img):
-    bot.send_text_message(recipient_id, txt)
-    bot.send_image_url(recipient_id, img)
-    return "Generic sent"
+
+def send_img(recipient_id, img_url):
+    bot.send_image_url(recipient_id, img_url)
+    return "Img sent"
 
 ## This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
@@ -67,7 +67,9 @@ def receive_message():
                 else:
                     gen_txt = wrong_text()
                     gen_img = wrong_img()
-                    send_txt_img(recipient_id, gen_txt, gen_img)
+                    send_message(recipient_id, gen_txt)
+                    send_message(recipient_id, gen_img)
+                    # send_txt_img(recipient_id, gen_txt, gen_img)
 
     return "Message Processed"
 
