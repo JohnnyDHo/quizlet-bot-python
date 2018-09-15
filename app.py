@@ -50,11 +50,12 @@ def receive_message():
         if recipient_id not in users_history_database:
             users_history_database[recipient_id] = Quiz(questions, answers)
             print("id not existss")
-            print(recipient_id)
-            print(type(users_history_database[recipient_id]))
+
         else:
             print("id already exists")
 
+        print(recipient_id)
+        print(type(users_history_database[recipient_id]))
         send_message(recipient_id, "i'm here")
         print("i'm here")
         run_program(recipient_id, message)
@@ -74,7 +75,7 @@ def run_program(id, message):
         print("first!!!!")
         send_message(id, users_history_database[id].start_quiz())
 
-    elif users_history_database[id].ongoing():
+    elif users_history_database[id].onGoing():
         print("second!!!!")
         if "end quiz" in message:
             send_message(id, users_history_database[id].end_quiz())
@@ -146,6 +147,7 @@ class Quiz():
         self.question_index = -1
         self.num_correct = 0
         self.num_asked = 0
+
         self.ongoing = False
 
     def start_quiz(self):
@@ -186,7 +188,7 @@ class Quiz():
             self.num_asked += 1
             return "Incorrect"
 
-    def ongoing(self):
+    def onGoing(self):
         return self.ongoing
 
     def print_history(self):
