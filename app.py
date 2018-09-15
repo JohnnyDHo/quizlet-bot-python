@@ -32,9 +32,7 @@ def send_message(recipient_id, response):
 def quiztext():
     question = ["mans best friend", "says meow", "long neck"]
     for q1 in question:
-        send_message(recipient_id, q1)
-        if q1 == request.get_json():
-            return send_message(recipient_id, "correct")
+        return q1
 
 
 
