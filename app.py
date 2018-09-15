@@ -66,7 +66,7 @@ def retrieve_file(recipient_id):
             if message.get('message'):
                 if message['message'].get('attachments'):
                     for att in message['message'].get('attachments'):
-                        print (type(att))
+                        print (att)
                         send_message(recipient_id, "Suceed!")
                 else:
                     send_message(recipient_id, "Plz upload!")
