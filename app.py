@@ -48,8 +48,9 @@ def receive_message():
         recipient_id, message = retrieve_id_and_message(output)
 
         if recipient_id not in users_history_database:
-            users_history_database[id] = Quiz(questions, answers)
+            users_history_database[recipient_id] = Quiz(questions, answers)
             print("id not existss")
+            print(recipient_id)
             print(type(users_history_database[id]))
         else:
             print("id already exists")
