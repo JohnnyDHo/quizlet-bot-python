@@ -17,9 +17,11 @@ q3 = "Question 3: answer a3"
 a3 = "a3"
 q4 = "Question 4: answer a4"
 a4 = "a4"
+q5 = "Question 5: answer a5"
+a5 = "a5"
 
-questions = [q1, q2, q3, q4]
-answers = [a1, a2, a3, a4]
+questions = [q1, q2, q3, q4, q5]
+answers = [a1, a2, a3, a4, a5]
 state = "None"
 correct_count = 0
 q_index = 0
@@ -49,11 +51,10 @@ def run_program(recipient_id, message):
         if "end quiz" in message:
             send_message(recipient_id, "Your quiz has been terminated.")
         else:
-            if message == questions[q_index]:
+            if message == answers[q_index]:
                 send_message(recipient_id, correct_response())
             else:
                 send_message(recipient_id, incorrect_response())
-
             q_index += 1
             send_message(recipient_id, questions[q_index])
     else:
