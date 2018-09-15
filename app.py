@@ -15,17 +15,10 @@ def verify_fb_token(token_sent):
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
 
-#quiz list
-answer["dog", "cat", "giraffe"]
-question["mans best friend", "says meow", "long neck"]
-
 # Chooses a message to send to the user
 import random
 def get_message_text():
     return "Hi HackRice Team"
-def quiztext():
-    for animal in answer:
-        return animal
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
@@ -54,7 +47,7 @@ def receive_message():
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
-                elif "hi" in message['message'].get('text').lower():
+                elif "hi" in message['message'].get('text').lower() or "hey" in message['message'].get('text').lower() or "hello" message['message'].get('text').lower():
                     send_message(recipient_id, "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'")
                 elif "quiz" in message['message'].get('text').lower():
                     quiz1 = quiztext()
