@@ -51,6 +51,7 @@ def run_program(recipient_id, message):
         if "end quiz" in message:
             send_message(recipient_id, "Your quiz has been terminated.")
         else:
+            send_message(recipient_id, "You message is" + message)
             if message == answers[q_index]:
                 send_message(recipient_id, correct_response())
             else:
