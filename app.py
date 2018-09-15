@@ -59,7 +59,7 @@ def receive_message():
                 if "hackrice" in message['message'].get('text').lower():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
-                elif "hi" in message['message'].get('text'):
+                elif "hi" in message['message'].get('text').lower():
                     send_message(recipient_id, "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'")
                 # elif "quiz" in message['message'].get('text').lower():
                 #     quiz1 = quiztext()
