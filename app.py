@@ -36,28 +36,36 @@ def verify_fb_token(token_sent):
 def correct_response():
     global correct_count
     correct_count += 1
-    return "Correct"
+    return "Correct."
 
 def incorrect_response():
-    return "Incorrect"
+    return "Incorrect."
 
 def run_program(recipient_id, message):
-    global state, q_index
+    global state, q_index, correct_count
     if message == "start quiz":
         q_index = 0
         state = "quiz"
         send_message(recipient_id, questions[q_index])
     elif state == "quiz":
         if "end quiz" in message:
+            state = "done quiz"
             send_message(recipient_id, "Your quiz has been terminated.")
         else:
-            send_message(recipient_id, "You message is" + message)
+            send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[q_index])
             if message == answers[q_index]:
                 send_message(recipient_id, correct_response())
             else:
                 send_message(recipient_id, incorrect_response())
             q_index += 1
-            send_message(recipient_id, questions[q_index])
+            if q_index > len(questions) - 1:
+                state = "done quiz"
+                send_message(recipient_id, "You've reached the end of the quiz.")
+            else:
+                send_message(recipient_id, questions[q_index])
+    elif state == "done quiz":
+        send_message(recipient_id, "Your got " + correct_count + "/" + str(len(questions)) + " correct.")
+
     else:
         send_message(recipient_id, "Send \"start quiz\" to start quiz")
 
