@@ -92,6 +92,9 @@ def receive_message():
 
 def retrieve_id_and_message():
     print("retrieve function gets called")
+
+    recipient_id = ""
+    message = ""
     output = request.get_json()  # get whatever message a user sent the bot
     for event in output['entry']:
         messaging = event['messaging']
