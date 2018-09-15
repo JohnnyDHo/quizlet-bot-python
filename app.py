@@ -44,8 +44,8 @@ def receive_message():
 
     ## Handle POST requests
     else:
-
-        recipient_id, message = retrieve_id_and_message()
+        output = request.get_json()  ## get whatever message a user sent the bot
+        recipient_id, message = retrieve_id_and_message(output)
 
         if recipient_id not in users_history_database:
             users_history_database[id] = Quiz(questions, answers)
@@ -81,8 +81,8 @@ def run_program(id, message):
 
 
 ## Retreving the user id and message (used at the beginning)
-def retrieve_id_and_message():
-    output = request.get_json()  ## get whatever message a user sent the bot
+def retrieve_id_and_message(output):
+
     for event in output['entry']:
         messaging = event['messaging']
         for message in messaging:
@@ -139,6 +139,7 @@ class Quiz():
         self.ongoing = False
 
     def start_quiz(self):
+        print ("quiz started")
         self.question_index = -1
         self.num_correct = 0
         self.num_asked = 0
