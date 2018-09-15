@@ -43,7 +43,7 @@ def correct_response(recipient_id):
 def run_program(recipient_id, message):
     global users, questions, answers
 
-    if recipient_id not in users:
+    if recipient_id != "None" and recipient_id not in users:
         users[recipient_id] = {}
         users[recipient_id]["state"] = "None"
         users[recipient_id]["correct_count"] = 0
