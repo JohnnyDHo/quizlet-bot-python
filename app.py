@@ -63,7 +63,7 @@ def receive_message():
                 elif "quiz" in message['message'].get('text').lower():
                     quiz1 = quiztext()
                     send_message(recipient_id, quiz1)
-                        if request.get_json() == quiztext():
+                    if request.get_json() == quiztext():
                         send_message(recipient_id, "correct")
 
     return "Message Processed"
