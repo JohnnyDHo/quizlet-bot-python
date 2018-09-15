@@ -51,7 +51,7 @@ def receive_message():
             users_history_database[recipient_id] = Quiz(questions, answers)
             print("id not existss")
             print(recipient_id)
-            print(type(users_history_database[id]))
+            print(type(users_history_database[recipient_id]))
         else:
             print("id already exists")
 
