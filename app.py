@@ -16,10 +16,8 @@ def verify_fb_token(token_sent):
     return 'Invalid verification token'
 
 # Chooses a message to send to the user
-def get_message_text():
+def get_message_text(message):
     return "Hi HackRice TeamMMMMMMMMMM"
-def text():
-    return "Hi, welcome to Quizlet Bot!"
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
@@ -44,14 +42,14 @@ def receive_message():
             if message.get('message'):
                 recipient_id = message['sender']['id'] ## Facebook Messenger ID for user so we know where to send response back to
 
-                ## If user sends text
-                if "hi" or "hello" or "hey" in message['message'].get('text').lower():
-                    welcome = text()
-                    send_message(recipient_id, welcome)
+                ## retrieving the user message and logging it
+                message_script = message['message'].get('text').lower()
 
-                if "hackrice" in message['message'].get('text').lower():
-                    response_sent_text = get_message_text()
-                    send_message(recipient_id, response_sent_text)
+                ## getting the response message and logging it
+                response_sent_text = get_message_text(message_script)
+
+                ## send the message
+                send_message(recipient_id, response_sent_text)
 
     return "Message Processed"
 
