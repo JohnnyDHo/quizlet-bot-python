@@ -49,10 +49,10 @@ def receive_message():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
 
-                if "hi" or "hey" or "hello" in message['message'].get('text').lower():
+                if "hi" in message['message'].get('text').lower():
                     welcome = welcometext()
                     send_message(recipient_id, welcome)
-                
+
     return "Message Processed"
 
 ## Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
