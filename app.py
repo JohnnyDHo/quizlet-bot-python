@@ -18,12 +18,7 @@ def verify_fb_token(token_sent):
 # Chooses a message to send to the user
 def get_message_text():
     return "Hi HackRice Team"
-def welcometext():
-    return "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'"
-def quizs():
-    return "Pick a Quiz: 'Spanish Numbers' 'a' 'b' "
-def snumbersquiz():
-    quizlist[]
+
 
 ## Send text message to recipient
 def send_message(recipient_id, response):
@@ -53,14 +48,7 @@ def receive_message():
                     response_sent_text = get_message_text()
                     send_message(recipient_id, response_sent_text)
                 elif "hi" or "hey" or "hello" in message['message'].get('text').lower():
-                    welcome = welcometext()
-                    send_message(recipient_id, welcome)
-                elif "quiz" in message['message'].get('text').lower():
-                    quizoption = quizs()
-                    send_message(recipient_id, quizoption)
-                elif "spanish numbers" in message['message'].get('text').lower():
-                    spanishnumbers =snumbersquiz()
-                    send_message(recipient_id, spanishnumbers)
+                    send_message(recipient_id, "Hi! Welcome to Quizlet-Bot! To pick a quiz send: 'quiz' To check history send: 'history' To upload your own quiz send: 'file'")
 
 
     return "Message Processed"
