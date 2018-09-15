@@ -52,9 +52,9 @@ def start_quiz(recipient_id):
         recipient_id, message = retrieve_id_and_message()
         if "quit" in message:
             break
-        if vocabs[q] in message:
+        elif vocabs[q] in message:
             send_message(recipient_id, correct_response())
-        else:
+        elif vocabs[q] not in message:
             send_message(recipient_id, incorrect_response())
 
     send_message(recipient_id, correct_count)
@@ -86,7 +86,6 @@ def receive_message():
         recipient_id, message = retrieve_id_and_message()
         if "start quiz" in message:
             start_quiz(recipient_id)
-
 
     return "Message Processed"
 
