@@ -49,6 +49,7 @@ def run_program(recipient_id, message):
         users[recipient_id]["correct_count"] = 0
         users[recipient_id]["q_index"] = 0
         send_message(recipient_id, "Hi, there. Your user ID is: " + str(recipient_id))
+        print(str(users))
 
     if users[recipient_id]["state"] == "None":
         if message == "start quiz":
