@@ -50,6 +50,7 @@ def start_quiz(recipient_id):
         send_message(recipient_id, q)
         print("message sent")
         recipient_id, message = retrieve_id_and_message()
+        send_message(recipient_id, message)
         while not message:
             if "quit" in message:
                 break
