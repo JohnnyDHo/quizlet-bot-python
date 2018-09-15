@@ -68,7 +68,7 @@ def receive_message():
                     gen_txt = wrong_text()
                     gen_img = wrong_img()
                     send_message(recipient_id, gen_txt)
-                    send_message(recipient_id, gen_img)
+                    send_img(recipient_id, gen_img)
                     # send_txt_img(recipient_id, gen_txt, gen_img)
 
     return "Message Processed"
