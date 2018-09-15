@@ -52,12 +52,13 @@ def run_program(recipient_id, message):
             state = "done quiz"
             send_message(recipient_id, "Your quiz has been terminated.")
         else:
-            send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[q_index])
             if message == answers[q_index]:
                 send_message(recipient_id, correct_response())
             else:
-                send_message(recipient_id, incorrect_response())
+                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[q_index])
+
             q_index += 1
+
             if q_index > len(questions) - 1:
                 state = "done quiz"
                 send_message(recipient_id, "You've reached the end of the quiz.")
