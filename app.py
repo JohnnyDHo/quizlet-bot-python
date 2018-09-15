@@ -9,8 +9,6 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN'] # Replace 'VERIFY_TOKEN' with your verify token
 bot = Bot(ACCESS_TOKEN) # Create an instance of the bot
 
-quiz_ongoing = None
-
 q1 = "q1"
 a1 = "a1"
 q2 = "q2"
@@ -20,6 +18,8 @@ vocabs = {
     q1: a1,
     q2: a2
 }
+
+correct_count = 0
 
 def verify_fb_token(token_sent):
     # Verifies that the token sent by Facebook matches the token sent locally
@@ -32,6 +32,7 @@ def send_question(q):
     return vocabs[q]
 
 def correct_response():
+    correct_count += 1
     return "Correct"
 
 def incorrect_response():
@@ -59,14 +60,17 @@ def receive_message():
             for message in messaging:
                 if message.get('message'):
                     recipient_id = message['sender']['id'] # Facebook Messenger ID for user so we know where to send response back to
+                    print("id received")
 
                 # If user sends text
                 if vocabs[q1] in message['message'].get('text').lower():
+                    print("correct")
                     response_sent_text = q1
-                    send_message(recipient_id, response_sent_text)
+                    # send_message(recipient_id, response_sent_text)
                 elif vocabs[q2] in message['message'].get('text').lower():
+                    print("incorrect")
                     response_sent_text = q2
-                    send_message(recipient_id, response_sent_text)
+                    # send_message(recipient_id, response_sent_text)
 
     return "Message Processed"
 
