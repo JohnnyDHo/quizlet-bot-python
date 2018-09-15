@@ -44,6 +44,7 @@ def correct_response(correct_count):
 def incorrect_response():
     return "Incorrect"
 
+@app.route("/webhook/", methods=['GET', 'POST'])
 def start_quiz(recipient_id):
     correct_count = 0
     for q in vocabs:
@@ -53,7 +54,7 @@ def start_quiz(recipient_id):
         if "quit" in message:
             break
         elif vocabs[q] in message:
-            send_message(recipient_id, correct_response())
+            send_message(recipient_id, correct_response(correct_count))
         else:
             send_message(recipient_id, incorrect_response())
 
@@ -66,11 +67,9 @@ def send_message(recipient_id, response):
 
 # This endpoint will receive messages
 
-
 @app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
     print("receive_message function gets called")
-
     recipient_id, message = retrieve_id_and_message()
     print("id received: " + recipient_id)
     send_message(recipient_id, "Please send \'start quiz\' to begin.") # this gets called every time a message is sent
@@ -82,6 +81,7 @@ def receive_message():
 
     return "Message Processed"
 
+@app.route("/webhook/", methods=['GET', 'POST'])
 def retrieve_id_and_message():
     print("retrieve function gets called")
     # Handle GET requests
