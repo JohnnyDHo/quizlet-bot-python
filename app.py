@@ -78,6 +78,7 @@ def receive_message():
     # If user sends text
     recipient_id, message = retrieve_id_and_message()
     if "start quiz" in message:
+        retrieve_id_and_message()
         start_quiz(recipient_id)
 
     return "Message Processed"
