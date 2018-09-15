@@ -1,6 +1,7 @@
 ## Python libraries that we need to import for our bot
 from flask import Flask, request
 from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
+from pymessenger import Element, Button
 import os
 
 app = Flask(__name__) ## This is how we create an instance of the Flask class for our app
@@ -20,12 +21,18 @@ def get_message_text():
     return "Hey, it looks like you're interested in HackRice! For more information, please visit http://hack.rice.edu"
 
 
-def wrong_text():
-    return ": WRONG"
+# def wrong_text():
+#     return ": WRONG"
+#
+#
+# def wrong_img():
+#     return "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg"
+def generic_wrong(inputs):
+    elements = []
+    element = Element(title=inputs + "IS WRONG", image_url="<https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg>", subtitle="go ask a TA", item_url="https://hack.rice.edu")
+    elements.append(element)
+    return elements
 
-
-def wrong_img():
-    return "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg"
     # subtitle = "haha"
     # item_url = "https://hack.rice.edu/"
     # elements = [title, image_url, subtitle, item_url]
@@ -40,6 +47,10 @@ def send_message(recipient_id, response):
 def send_img(recipient_id, img_url):
     bot.send_image_url(recipient_id, img_url)
     return "Img sent"
+
+def send_gen(recipient_id, elements):
+    bot.send_generic_message(recipient_id, elements)
+    return "generic sent"
 
 ## This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
@@ -66,10 +77,12 @@ def receive_message():
 
                 else:
                     message1 = message['message'].get('text')
-                    gen_txt = message1 + wrong_text()
-                    gen_img = wrong_img()
-                    send_message(recipient_id, gen_txt)
-                    send_img(recipient_id, gen_img)
+                    elms = generic_wrong(message1)
+                    send_gen(recipient_id, elms)
+                    # gen_txt = message1 + wrong_text()
+                    # gen_img = wrong_img()
+                    # send_message(recipient_id, gen_txt)
+                    # send_img(recipient_id, gen_img)
                     # send_txt_img(recipient_id, gen_txt, gen_img)
 
     return "Message Processed"
