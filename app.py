@@ -60,17 +60,17 @@ def receive_message():
             for message in messaging:
                 if message.get('message'):
                     recipient_id = message['sender']['id'] # Facebook Messenger ID for user so we know where to send response back to
-                    print("id received")
+                    print("id received: "+ recipient_id)
 
                 # If user sends text
                 if vocabs[q1] in message['message'].get('text').lower():
                     print("correct")
                     response_sent_text = q1
-                    # send_message(recipient_id, response_sent_text)
+                    send_message(recipient_id, response_sent_text)
                 elif vocabs[q2] in message['message'].get('text').lower():
                     print("incorrect")
                     response_sent_text = q2
-                    # send_message(recipient_id, response_sent_text)
+                    send_message(recipient_id, response_sent_text)
 
     return "Message Processed"
 
