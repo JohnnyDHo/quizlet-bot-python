@@ -33,9 +33,9 @@ def quiztext():
     question = ["mans best friend", "says meow", "long neck"]
     for q1 in question:
         send_message(recipient_id, q1)
-        if q1 == request.get_json()
+        if q1 == request.get_json():
             send_message(recipient_id, "correct")
-    
+
 
 ## This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
