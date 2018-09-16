@@ -57,10 +57,12 @@ def receive_message():
                     if recipient_id not in users_history_database:
                         users_history_database[recipient_id] = Quiz(questions, answers, recipient_id)
                         quiz_ongoing[recipient_id] = False
-                        print("id not exists")
+                        print("id not exist")
 
                     else:
-                        print("id already exists")
+                        print("!!!!!!!id already exists!!!!!!!!!")
+                        print("!!!!!!!id already exists!!!!!!!!!")
+                        print("!!!!!!!id already exists!!!!!!!!!")
 
                     print("before run program. the quiz is ongoing", quiz_ongoing[recipient_id])
 
