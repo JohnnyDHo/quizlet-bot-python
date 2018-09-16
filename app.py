@@ -60,11 +60,11 @@ def receive_message():
                     else:
                         print("id already exists")
 
-                    print(recipient_id)
-                    users_history_database[recipient_id].print_object()
 
-                    print("i'm here")
                     run_program(recipient_id, message)
+                    print(recipient_id)
+                    print("Quiz object for id")
+                    users_history_database[recipient_id].print_object()
 
 
 
