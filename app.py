@@ -6,6 +6,7 @@ import os
 questions = ["q1", "q2"]
 answers = ["a1", "a2"]
 users_history_database = {}
+quiz_ongoing = {}
 
 app = Flask(__name__)  ## This is how we create an instance of the Flask class for our app
 
@@ -34,7 +35,7 @@ def send_message(recipient_id, response):
 ## This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
-    global questions, answers, users_history_database
+    global questions, answers, users_history_database, quiz_ongoing
 
     print("MESSAGE RECEIVED")
     ## Handle GET requests
@@ -54,7 +55,8 @@ def receive_message():
                     message = message['message'].get('text').lower()
 
                     if recipient_id not in users_history_database:
-                        users_history_database[recipient_id] = Quiz(questions, answers)
+                        users_history_database[recipient_id] = Quiz(questions, answers, recipient_id)
+                        quiz_ongoing[recipient_id] = False
                         print("id not existss")
 
                     else:
@@ -77,17 +79,20 @@ def receive_message():
 
 
 def run_program(id, message):
-    global users_history_database
+    global users_history_database, quiz_ongoing
     print("program running!!!!!")
 
     if 'start quiz' in message:
         print("quiz starting now")
+        quiz_ongoing[id] = True
         send_message(id, users_history_database[id].start_quiz())
 
-    elif users_history_database[id].onGoing():
+    # elif users_history_database[id].onGoing():
+    elif quiz_ongoing[id]:
         print("quiz ongoing")
         if "end quiz" in message:
             print("end quiz")
+            quiz_ongoing[id] = False
             send_message(id, users_history_database[id].end_quiz())
         else:
             print("checking & sending another question")
@@ -147,9 +152,10 @@ def read_file(f):
 
 
 class Quiz():
-    def __init__(self, questions, answers):
+    def __init__(self, questions, answers, id):
         self.questions = questions
         self.answers = answers
+        self.id = id
 
         self.quiz_history = []
         self.total_accuracy = 0.0
@@ -170,6 +176,7 @@ class Quiz():
         return self.get_question()
 
     def end_quiz(self):
+        global quiz_ongoing
         # Terminate the quiz
         self.update_history()
 
@@ -179,6 +186,7 @@ class Quiz():
 
         self.num_quizzes += 1
         self.ongoing = False
+        quiz_ongoing[self.id] = False
         return "Quiz ended."
 
     def update_history(self):
