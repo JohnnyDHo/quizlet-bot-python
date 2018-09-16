@@ -61,7 +61,7 @@ def receive_message():
                         print("id already exists")
 
                     print(recipient_id)
-                    print(type(users_history_database[recipient_id]))
+                    users_history_database[recipient_id].print_object()
 
                     print("i'm here")
                     run_program(recipient_id, message)
@@ -154,7 +154,7 @@ class Quiz():
         self.total_accuracy = 0.0
         self.num_quizzes = 0
 
-        self.question_index = -1
+        self.question_index = -2
         self.num_correct = 0
         self.num_asked = 0
 
@@ -204,3 +204,9 @@ class Quiz():
 
     def print_history(self):
         print (self.quiz_history)
+
+    def print_object(self):
+        print(self.question_index)
+        print(self.num_correct)
+        print(self.num_asked)
+        print(self.ongoing)
