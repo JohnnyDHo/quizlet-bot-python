@@ -1,3 +1,4 @@
+
 # Python libraries that we need to import for our bot
 from flask import Flask, request
 from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
@@ -22,9 +23,10 @@ a5 = "rhino"
 
 questions = [q1, q2, q3, q4, q5]
 answers = [a1, a2, a3, a4, a5]
+
 state = "None"
 correct_count = 0
-q_index = 0
+q_index = range(len(questions))
 
 # Chooses a message to send to the user
 def correct_response():
