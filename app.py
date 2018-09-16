@@ -42,14 +42,20 @@ def correct_response(recipient_id):
 
 def run_program(recipient_id, message):
     global users, questions, answers
+    id_not_found = False
 
     if recipient_id not in users:
+        id_not_found = True
+        send_message(recipient_id, "User ID " + str(recipient_id) + " not found")
         users[recipient_id] = {}
         users[recipient_id]["state"] = "None"
         users[recipient_id]["correct_count"] = 0
         users[recipient_id]["q_index"] = 0
         send_message(recipient_id, "Hi, there. Your user ID is: " + str(recipient_id))
         print(str(users))
+
+    if id_not_found == False:
+        send_message(recipient_id, "User ID " + str(recipient_id) + " is found")
 
     if users[recipient_id]["state"] == "None":
         if message == "start quiz":
