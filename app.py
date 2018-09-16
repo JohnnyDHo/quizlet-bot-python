@@ -62,7 +62,7 @@ def receive_message():
 
 
                     run_program(recipient_id, message)
-                    print()
+                    print("  ")
                     print(recipient_id)
                     print("Quiz object for id")
                     users_history_database[recipient_id].print_object()
