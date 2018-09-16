@@ -181,7 +181,7 @@ class Quiz():
     def end_quiz(self):
         global quiz_ongoing
         # Terminate the quiz
-        self.update_history()
+        accuracy = self.update_history()
 
         self.question_index = -1
         self.num_correct = 0
@@ -190,13 +190,14 @@ class Quiz():
         self.num_quizzes += 1
         self.ongoing = False
         quiz_ongoing[self.id] = False
-        return "Quiz ended."
+        return "Quiz ended." + accuracy
 
     def update_history(self):
 
         current_accuracy = self.num_correct / float(self.num_asked)
         self.quiz_history.append([self.num_correct, self.num_asked, current_accuracy])
         self.total_accuracy = (self.total_accuracy * self.num_quizzes + current_accuracy) / (self.num_quizzes + 1)
+        return "You got " + self.num_correct + " out of " + self.num_asked
 
     def get_question(self):
         self.question_index += 1
