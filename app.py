@@ -3,8 +3,8 @@ from flask import Flask, request
 from pymessenger.bot import Bot  ## pymessenger is a Python wrapper for the Facebook Messenger API
 import os
 
-questions = ["q1", "q2"]
-answers = ["a1", "a2"]
+questions = ["q1", "q2", "q3", "q4"]
+answers = ["a1", "a2", "a3", "a4"]
 users_history_database = {}
 quiz_ongoing = {}
 
