@@ -100,7 +100,7 @@ def run_program(id, message):
 
 
 
-
+'''
 ## Retreving the user id and message (used at the beginning)
 def retrieve_id_and_message(output):
     print("retrieve message")
@@ -111,7 +111,7 @@ def retrieve_id_and_message(output):
                 recipient_id = message['sender']['id']
                 message_script = message['message'].get('text').lower()
                 return recipient_id, message_script
-
+'''
 
 ## Retreiving the file (used in the modules)
 def retrieve_file():
