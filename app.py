@@ -58,6 +58,7 @@ def run_program(recipient_id, message):
         send_message(recipient_id, "User ID " + str(recipient_id) + " is found")
 
     if users[recipient_id]["state"] == "None":
+        send_message(recipient_id, "the state is " + users[recipient_id]["state"])
         if message == "start quiz":
             users[recipient_id]["state"] = "start quiz"
             print(str(users))
