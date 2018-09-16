@@ -62,6 +62,7 @@ def receive_message():
 
 
                     run_program(recipient_id, message)
+                    print()
                     print(recipient_id)
                     print("Quiz object for id")
                     users_history_database[recipient_id].print_object()
@@ -211,7 +212,7 @@ class Quiz():
         print (self.quiz_history)
 
     def print_object(self):
-        print(self.question_index)
-        print(self.num_correct)
-        print(self.num_asked)
-        print(self.ongoing)
+        print("qu index", self.question_index)
+        print("num correct", self.num_correct)
+        print("num asked", self.num_asked)
+        print("ongoing?", self.ongoing)
