@@ -1,13 +1,13 @@
 # Python libraries that we need to import for our bot
 from flask import Flask, request
-from pymessenger.bot import Bot  ## pymessenger is a Python wrapper for the Facebook Messenger API
+from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
 import os
 
-app = Flask(__name__)  # This is how we create an instance of the Flask class for our app
+app = Flask(__name__) # This is how we create an instance of the Flask class for our app
 
 ACCESS_TOKEN = 'EAADwbtv7Ug4BAPXZBnN8ZCaf3yXAabclZCQA2Bpdrhl38zTZCrZCsuGQLrsLnE491b8USA2BiTzXsmBrlr5aZCZC1t7ZASIyb5AWIhUBA2ghTgZBZBVWtgFjh433VTLPre8OZBHByLWNiuyFNTzONGfvXIp7xhvPM9rpEbnaOzxhOEbehLcPCZCoWhW8'
-VERIFY_TOKEN = 'TESTINGTOKEN'  # Replace 'VERIFY_TOKEN' with your verify token
-bot = Bot(ACCESS_TOKEN)  # Create an instance of the bot
+VERIFY_TOKEN = 'TESTINGTOKEN' # Replace 'VERIFY_TOKEN' with your verify token
+bot = Bot(ACCESS_TOKEN) # Create an instance of the bot
 
 # ======================== Don't mess with the stuff Above!!! ========================
 
@@ -34,13 +34,11 @@ users = {
     # recipient-id : [state, correct_count, q_index]
 }
 
-
 # Chooses a message to send to the user
 def correct_response(recipient_id):
     global users
     users[recipient_id]["correct_count"] += 1
     return "Correct."
-
 
 def run_program(recipient_id, message):
     global users, questions, answers
@@ -60,7 +58,6 @@ def run_program(recipient_id, message):
     #     send_message(recipient_id, "User ID " + str(recipient_id) + " is found")
 
     if users[recipient_id]["state"] == "None":
-        send_message(recipient_id, "the state is " + users[recipient_id]["state"])
         if message == "start quiz":
             users[recipient_id]["state"] = "start quiz"
             print(str(users))
@@ -77,8 +74,7 @@ def run_program(recipient_id, message):
             if message == answers[users[recipient_id]["q_index"]]:
                 send_message(recipient_id, correct_response(recipient_id))
             else:
-                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[
-                    users[recipient_id]["q_index"]])
+                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[users[recipient_id]["q_index"]])
 
             users[recipient_id]["q_index"] += 1
 
@@ -92,10 +88,11 @@ def run_program(recipient_id, message):
 
     elif users[recipient_id]["state"] == "done quiz":
         if message == "get result":
-            send_message(recipient_id, "Your got " + str(users[recipient_id]["correct_count"]) + "/" + str(
-                len(questions)) + " correct.")
+            send_message(recipient_id, "You got " + str(users[recipient_id]["correct_count"]) + "/" + str(len(questions)) + " correct.")
         users[recipient_id]["state"] = "None"
-        send_message(recipient_id, "Enter \"start quiz to restart\"")
+        send_message(recipient_id, "Enter \"start quiz\" to restart")
+
+
 
 
 # ======================== Don't mess with the stuff below!!! ========================
@@ -106,11 +103,9 @@ def verify_fb_token(token_sent):
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
 
-
 def send_message(recipient_id, response):
-    bot.send_text_message(recipient_id, response)  # Sends the 'response' parameter to the user
+    bot.send_text_message(recipient_id, response) # Sends the 'response' parameter to the user
     return "Message sent"
-
 
 def retrieve_id_and_message():
     print("retrieve function gets called")
@@ -124,7 +119,6 @@ def retrieve_id_and_message():
                 recipient_id = message['sender']['id']
                 message = message['message'].get('text').lower()
     return recipient_id, message
-
 
 # This endpoint will receive messages
 @app.route("/", methods=['GET', 'POST'])
@@ -141,7 +135,6 @@ def receive_message():
             run_program(recipient_id, message)
         return "Message Processed"
 
-
 # Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
-    app.run()  ## Runs application
+    app.run() ## Runs application
