@@ -187,7 +187,11 @@ class Quiz():
 
     def get_question(self):
         self.question_index += 1
-        return self.questions[self.question_index]
+        if self.question_index >= len(self.questions):
+            return self.end_quiz()
+
+        else:
+            return self.questions[self.question_index]
 
     def check_answer(self, message):
         if message == self.answers[self.question_index]:
