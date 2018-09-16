@@ -136,8 +136,7 @@ def receive_message():
     # Handle POST requests
     else:
         recipient_id, message = retrieve_id_and_message()
-        if recipient_id != "":
-            run_program(recipient_id, message)
+        run_program(recipient_id, message)
         return "Message Processed"
 
 # Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
