@@ -2,6 +2,7 @@
 from flask import Flask, request
 from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
 import os
+import time
 
 app = Flask(__name__) # This is how we create an instance of the Flask class for our app
 
@@ -46,11 +47,16 @@ def run_program(recipient_id, message):
 
     if recipient_id not in users:
         id_not_found = True
+        time.sleep(0.5)
         send_message(recipient_id, "User ID " + str(recipient_id) + " not found")
         users[recipient_id] = {}
+        time.sleep(0.5)
         users[recipient_id]["state"] = "None"
+        time.sleep(0.5)
         users[recipient_id]["correct_count"] = 0
+        time.sleep(0.5)
         users[recipient_id]["q_index"] = 0
+        time.sleep(0.5)
         send_message(recipient_id, "Hi, there. Your user ID is: " + str(recipient_id))
         print(str(users))
 
@@ -61,6 +67,7 @@ def run_program(recipient_id, message):
         send_message(recipient_id, "the state is " + users[recipient_id]["state"])
         if message == "start quiz":
             users[recipient_id]["state"] = "start quiz"
+            time.sleep(0.5)
             print(str(users))
             send_message(recipient_id, questions[users[recipient_id]["q_index"]])
         else:
