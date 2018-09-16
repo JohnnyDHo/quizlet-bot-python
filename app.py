@@ -3,7 +3,7 @@
 from flask import Flask, request
 from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
 import os
-
+import random
 app = Flask(__name__) # This is how we create an instance of the Flask class for our app
 
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
@@ -23,10 +23,11 @@ a5 = "rhino"
 
 questions = [q1, q2, q3, q4, q5]
 answers = [a1, a2, a3, a4, a5]
-
+shuffle_index = range(len(questions))
+random.shuffle(shuffle_index)
 state = "None"
 correct_count = 0
-q_index = range(len(questions))
+q_index = shuffle_index[0]
 
 # Chooses a message to send to the user
 def correct_response():
@@ -57,7 +58,9 @@ def run_program(recipient_id, message):
             else:
                 send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[q_index])
 
-            q_index += 1
+            shuffle_index.pop(0)
+            q_index = shuffle_index[0]
+
 
             if q_index > len(questions) - 1:
                 state = "done quiz"
