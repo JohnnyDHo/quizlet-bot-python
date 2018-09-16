@@ -68,7 +68,6 @@ def run_program(recipient_id, message):
     elif users[recipient_id]["state"] == "start quiz":
         if "end quiz" in message:
             users[recipient_id]["state"] = "done quiz"
-            users[recipient_id]["q_index"] = 0
             send_message(recipient_id, "Your quiz has been terminated. Send \"Get Result\" to see your result.")
         else:
             if message == answers[users[recipient_id]["q_index"]]:
@@ -90,6 +89,8 @@ def run_program(recipient_id, message):
         if message == "get result":
             send_message(recipient_id, "You got " + str(users[recipient_id]["correct_count"]) + "/" + str(len(questions)) + " correct.")
         users[recipient_id]["state"] = "None"
+        users[recipient_id]["q_index"] = 0
+        users[recipient_id]["correct_count"] = 0
         send_message(recipient_id, "Enter \"start quiz\" to restart")
 
 
