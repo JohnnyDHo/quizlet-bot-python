@@ -2,7 +2,7 @@
 from flask import Flask, request
 from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
 import os
-
+ 
 app = Flask(__name__) # This is how we create an instance of the Flask class for our app
 
 ACCESS_TOKEN = 'EAADwbtv7Ug4BAPXZBnN8ZCaf3yXAabclZCQA2Bpdrhl38zTZCrZCsuGQLrsLnE491b8USA2BiTzXsmBrlr5aZCZC1t7ZASIyb5AWIhUBA2ghTgZBZBVWtgFjh433VTLPre8OZBHByLWNiuyFNTzONGfvXIp7xhvPM9rpEbnaOzxhOEbehLcPCZCoWhW8'
