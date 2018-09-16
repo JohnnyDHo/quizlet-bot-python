@@ -90,7 +90,7 @@ def run_program(id, message):
             send_message(id, users_history_database[id].end_quiz())
         else:
             print("checking & sending another question")
-            send_message(id, users_history_database[id].check_answer())
+            send_message(id, users_history_database[id].check_answer(message))
             send_message(id, users_history_database[id].get_question())
 
     else:
