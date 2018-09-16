@@ -199,6 +199,7 @@ class Quiz():
             return "Incorrect"
 
     def onGoing(self):
+        print(self.ongoing)
         return self.ongoing
 
     def print_history(self):
