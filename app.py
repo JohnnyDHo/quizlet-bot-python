@@ -177,6 +177,7 @@ class Quiz():
         self.num_asked = 0
 
         self.num_quizzes += 1
+        self.ongoing = False
         return "Quiz ended."
 
     def update_history(self):
