@@ -57,17 +57,18 @@ def receive_message():
                     if recipient_id not in users_history_database:
                         users_history_database[recipient_id] = Quiz(questions, answers, recipient_id)
                         quiz_ongoing[recipient_id] = False
-                        print("id not existss")
+                        print("id not exists")
 
                     else:
                         print("id already exists")
 
+                    print("before run program. the quiz is ongoing", quiz_ongoing[recipient_id])
 
                     run_program(recipient_id, message)
-                    print("  ")
-                    print(recipient_id)
-                    print("Quiz object for id")
-                    users_history_database[recipient_id].print_object()
+                    for id in users_history_database:
+                        print("after run program, the quiz is ongoing", quiz_ongoing[id])
+                        print("Quiz object for id")
+                        users_history_database[id].print_object()
 
 
 
@@ -100,7 +101,7 @@ def run_program(id, message):
             send_message(id, users_history_database[id].get_question())
 
     else:
-        print("not correct input")
+        print("input not correct")
         send_message(id, "input not correct")
 
 
@@ -224,3 +225,4 @@ class Quiz():
         print("num correct", self.num_correct)
         print("num asked", self.num_asked)
         print("ongoing?", self.ongoing)
+
