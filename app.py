@@ -129,8 +129,7 @@ def retrieve_id_and_message():
             if message.get('message'):
                 recipient_id = message['sender']['id']
 
-                print
-                message, message_type
+                print(message, message_type)
 
                 if message['message'].get('text'):
                     message_type = 'text'
