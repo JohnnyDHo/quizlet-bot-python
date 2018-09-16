@@ -9,6 +9,9 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN'] # Replace 'VERIFY_TOKEN' with your verify token
 bot = Bot(ACCESS_TOKEN) # Create an instance of the bot
 
+# ======================== Don't mess with the stuff Above!!! ========================
+
+
 q1 = "Question 1: answer a1"
 a1 = "a1"
 q2 = "Question 2: answer a2"
@@ -22,55 +25,70 @@ a5 = "a5"
 
 questions = [q1, q2, q3, q4, q5]
 answers = [a1, a2, a3, a4, a5]
-state = "None"
-correct_count = 0
-q_index = 0
+
+# state = "None"
+# correct_count = 0
+# q_index = 0
+
+users = {
+    # recipient-id : [state, correct_count, q_index]
+}
 
 # Chooses a message to send to the user
-def correct_response():
-    global correct_count
-    correct_count += 1
+def correct_response(recipient_id):
+    global users
+    users[recipient_id]["correct_count"] += 1
     return "Correct."
 
-def incorrect_response():
-    return "Incorrect."
-
 def run_program(recipient_id, message):
-    global state, q_index, correct_count
+    global users, questions, answers
+    id_not_found = False
 
-    if state == "None":
+    if recipient_id not in users:
+        id_not_found = True
+        # send_message(recipient_id, "User ID " + str(recipient_id) + " not found")
+        users[recipient_id] = {}
+        users[recipient_id]["state"] = "None"
+        users[recipient_id]["correct_count"] = 0
+        users[recipient_id]["q_index"] = 0
+        send_message(recipient_id, "Hi, there. Your user ID is: " + str(recipient_id))
+        print(str(users))
+
+    # if id_not_found == False:
+    #     send_message(recipient_id, "User ID " + str(recipient_id) + " is found")
+
+    if users[recipient_id]["state"] == "None":
+        send_message(recipient_id, "the state is " + users[recipient_id]["state"])
         if message == "start quiz":
-            state = "quiz"
-            send_message(recipient_id, questions[q_index])
+            users[recipient_id]["state"] = "start quiz"
+            print(str(users))
+            send_message(recipient_id, questions[users[recipient_id]["q_index"]])
         else:
             send_message(recipient_id, "Send \"start quiz\" to start quiz")
-    elif state == "quiz":
+
+    elif users[recipient_id]["state"] == "start quiz":
         if "end quiz" in message:
-            state = "done quiz"
-            q_index = 0
+            users[recipient_id]["state"] = "done quiz"
+            users[recipient_id]["q_index"] = 0
             send_message(recipient_id, "Your quiz has been terminated. Send \"Get Result\" to see your result.")
         else:
-            if message == answers[q_index]:
-                send_message(recipient_id, correct_response())
+            if message == answers[users[recipient_id]["q_index"]]:
+                send_message(recipient_id, correct_response(recipient_id))
             else:
-                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[q_index])
+                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[users[recipient_id]["q_index"]])
 
-            q_index += 1
+            users[recipient_id]["q_index"] += 1
 
-            if q_index > len(questions) - 1:
-                state = "done quiz"
-                q_index = 0
+            if users[recipient_id]["q_index"] > len(questions) - 1:
+                users[recipient_id]["state"] = "done quiz"
+                users[recipient_id]["q_index"] = 0
                 send_message(recipient_id, "You've reached the end of the quiz.")
                 send_message(recipient_id, "Send \"Get Result\" to see your result.")
             else:
-                send_message(recipient_id, questions[q_index])
+                send_message(recipient_id, questions[users[recipient_id]["q_index"]])
 
-    elif state == "done quiz" and message == "get result":
-        send_message(recipient_id, "Your got " + str(correct_count) + "/" + str(len(questions)) + " correct.")
-
-
-
-
+    elif users[recipient_id]["state"] == "done quiz" and message == "get result":
+        send_message(recipient_id, "Your got " + str(users[recipient_id]["correct_count"]) + "/" + str(len(questions)) + " correct.")
 
 
 
@@ -105,14 +123,14 @@ def retrieve_id_and_message():
 def receive_message():
     # Handle GET requests
     if request.method == 'GET':
-        print("GET request gets called")
         token_sent = request.args.get("hub.verify_token")  # Facebook requires a verify token when receiving messages
         return verify_fb_token(token_sent)
 
     # Handle POST requests
     else:
         recipient_id, message = retrieve_id_and_message()
-        run_program(recipient_id, message)
+        if recipient_id != "":
+            run_program(recipient_id, message)
         return "Message Processed"
 
 # Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
