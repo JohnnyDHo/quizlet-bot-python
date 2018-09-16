@@ -45,20 +45,28 @@ def receive_message():
     ## Handle POST requests
     else:
         output = request.get_json()  ## get whatever message a user sent the bot
-        recipient_id, message = retrieve_id_and_message(output)
+        print("retrieve message")
+        for event in output['entry']:
+            messaging = event['messaging']
+            for message in messaging:
+                if message.get('message'):
+                    recipient_id = message['sender']['id']
+                    message = message['message'].get('text').lower()
 
-        if recipient_id not in users_history_database:
-            users_history_database[recipient_id] = Quiz(questions, answers)
-            print("id not existss")
+                    if recipient_id not in users_history_database:
+                        users_history_database[recipient_id] = Quiz(questions, answers)
+                        print("id not existss")
 
-        else:
-            print("id already exists")
+                    else:
+                        print("id already exists")
 
-        print(recipient_id)
-        print(type(users_history_database[recipient_id]))
-        send_message(recipient_id, "i'm here")
-        print("i'm here")
-        run_program(recipient_id, message)
+                    print(recipient_id)
+                    print(type(users_history_database[recipient_id]))
+
+                    print("i'm here")
+                    run_program(recipient_id, message)
+
+
 
 
     # response_sent_text = get_message_text(message)
