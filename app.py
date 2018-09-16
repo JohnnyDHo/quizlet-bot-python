@@ -1,94 +1,132 @@
-## Python libraries that we need to import for our bot
+# Python libraries that we need to import for our bot
 from flask import Flask, request
 from pymessenger.bot import Bot ## pymessenger is a Python wrapper for the Facebook Messenger API
-from pymessenger import Element, Button
 import os
+import config
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
-app = Flask(__name__) ## This is how we create an instance of the Flask class for our app
+app = Flask(__name__) # This is how we create an instance of the Flask class for our app
 
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-VERIFY_TOKEN = os.environ['VERIFY_TOKEN'] ## Replace 'VERIFY_TOKEN' with your verify token
-bot = Bot(ACCESS_TOKEN) ## Create an instance of the bot
+VERIFY_TOKEN = os.environ['VERIFY_TOKEN'] # Replace 'VERIFY_TOKEN' with your verify token
+bot = Bot(ACCESS_TOKEN) # Create an instance of the bot
+
+q1 = "Question 1: What is Rice's mascot?"
+a1 = "owl"
+q2 = "Question 2: What animal is man's best friend?"
+a2 = "dog"
+q3 = "Question 3: What animal makes the sound 'meow'?"
+a3 = "cat"
+q4 = "Question 4: What animal has a long neck?"
+a4 = "giraffe"
+q5 = "Question 5: What animal has one horn?"
+a5 = "rhino"
+
+questions = [q1, q2, q3, q4, q5]
+answers = [a1, a2, a3, a4, a5]
+state = "None"
+correct_count = 0
+q_index = 0
+
+# Google API scope
+scope = 'https://www.googleapis.com/auth/drive'
+
+# Google credentials, use your own with Drive and Sheets API
+credentials = ServiceAccountCredentials.from_json_keyfile_name("Quizlet Bot-577b356c86b3.json", scope)
+gc = gspread.authorize(credentials)
+
+wks = gc.open('hackruce').sheet1
+
+# Chooses a message to send to the user
+def correct_response():
+    global correct_count
+    correct_count += 1
+    return "Correct."
+
+def incorrect_response():
+    return "Incorrect."
+
+def run_program(recipient_id, message):
+    global state, q_index, correct_count
+
+    if state == "None":
+        if message == "start quiz":
+            state = "quiz"
+            send_message(recipient_id, questions[q_index])
+        else:
+            send_message(recipient_id, "Send \"start quiz\" to start quiz")
+    elif state == "quiz":
+        if "end quiz" in message:
+            state = "done quiz"
+            q_index = 0
+            send_message(recipient_id, "Your quiz has been terminated. Send \"Get Result\" to see your result.")
+        else:
+            if message == answers[q_index]:
+                send_message(recipient_id, correct_response())
+            else:
+                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[q_index])
+
+            q_index += 1
+
+            if q_index > len(questions) - 1:
+                state = "done quiz"
+                q_index = 0
+                send_message(recipient_id, "You've reached the end of the quiz.")
+                send_message(recipient_id, "Send \"Get Result\" to see your result.")
+            else:
+                send_message(recipient_id, questions[q_index])
+
+    elif state == "done quiz" and message == "get result":
+        send_message(recipient_id, "Your got " + str(correct_count) + "/" + str(len(questions)) + " correct.")
+
+
+
+
+
+
+
+
+# ======================== Don't mess with the stuff below!!! ========================
 
 def verify_fb_token(token_sent):
-    ## Verifies that the token sent by Facebook matches the token sent locally
+    # Verifies that the token sent by Facebook matches the token sent locally
     if token_sent == VERIFY_TOKEN:
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
 
-# Chooses a message to send to the user
-def get_message_text():
-    return "Hey, it looks like you're interested in HackRice! For more information, please visit http://hack.rice.edu"
-
-
-def wrong_text():
-    return ": WRONG"
-
-
-def wrong_img():
-    return "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg"
-
-
-def generic_wrong(inputs):
-    elements = []
-    element = Element(title=inputs + "IS WRONG", image_url="https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/DWLeebron.jpg/220px-DWLeebron.jpg", subtitle="go ask a TA", item_url="https://hack.rice.edu")
-    elements.append(element)
-    return elements
-
-    # subtitle = "haha"
-    # item_url = "https://hack.rice.edu/"
-    # elements = [title, image_url, subtitle, item_url]
-    # return [elements]
-
-## Send text message to recipient
 def send_message(recipient_id, response):
-    bot.send_text_message(recipient_id, response) ## Sends the 'response' parameter to the user
+    bot.send_text_message(recipient_id, response) # Sends the 'response' parameter to the user
     return "Message sent"
 
+def retrieve_id_and_message():
+    print("retrieve function gets called")
+    recipient_id = ""
+    message = ""
+    output = request.get_json()  # get whatever message a user sent the bot
+    for event in output['entry']:
+        messaging = event['messaging']
+        for message in messaging:
+            if message.get('message'):
+                recipient_id = message['sender']['id']
+                message = message['message'].get('text').lower()
+    return recipient_id, message
 
-def send_img(recipient_id, img_url):
-    bot.send_image_url(recipient_id, img_url)
-    return "Img sent"
-
-def send_gen(recipient_id, elements):
-    bot.send_generic_message(recipient_id, elements)
-    return "generic sent"
-
-## This endpoint will receive messages
+# This endpoint will receive messages
 @app.route("/webhook/", methods=['GET', 'POST'])
 def receive_message():
-    print("MESSAGE RECEIVED")
-    ## Handle GET requests
+    # Handle GET requests
     if request.method == 'GET':
-        token_sent = request.args.get("hub.verify_token") ## Facebook requires a verify token when receiving messages
+        print("GET request gets called")
+        token_sent = request.args.get("hub.verify_token")  # Facebook requires a verify token when receiving messages
         return verify_fb_token(token_sent)
 
-    ## Handle POST requests
+    # Handle POST requests
     else:
-       output = request.get_json() ## get whatever message a user sent the bot
-       for event in output['entry']:
-          messaging = event['messaging']
-          for message in messaging:
-            if message.get('message'):
-                recipient_id = message['sender']['id'] ## Facebook Messenger ID for user so we know where to send response back to
+        recipient_id, message = retrieve_id_and_message()
+        run_program(recipient_id, message)
+        return "Message Processed"
 
-                ## If user sends text
-                if "hackrice" in message['message'].get('text').lower():
-                    response_sent_text = get_message_text()
-                    send_message(recipient_id, response_sent_text)
-
-                else:
-                    message1 = message['message'].get('text')
-                    # elms = generic_wrong(message1)
-                    # send_gen(recipient_id, elms)
-                    gen_txt = message1 + wrong_text()
-                    gen_img = wrong_img()
-                    send_message(recipient_id, gen_txt)
-                    send_img(recipient_id, gen_img)
-                    send_txt_img(recipient_id, gen_txt, gen_img)
-
-    return "Message Processed"
-
-## Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
+# Ensures that the below code is only evaluated when the file is executed, and ignored if the file is imported
 if __name__ == "__main__":
     app.run() ## Runs application
