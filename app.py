@@ -6,7 +6,7 @@ import random
 
 app = Flask(__name__)  # This is how we create an instance of the Flask class for our app
 
-ACCESS_TOKEN = 'EAADwbtv7Ug4BANxew62pyFzhzvHVNpiyWDNeXS5EBJBFKhlpEmtPOywwIhPUsCEDgE7UrroHezPZBcjzzjiptpZBbzy3iA3NvUuXZAiwglAwticZBu773BvSwHiVslyZCzM0h5WHs8wxQuRZCKuGMUHkRSQh6ZCcMOdTxg8vlmKVjyj033DZBbDU'
+ACCESS_TOKEN = 'EAADvQoLK744BACtjqbYZCYziRpmMSQADmZC8eFU7ZAsbRKUSbycUH1Pm1QTpqXnJ83z0al9lyTUsxHRM7zImenAzZBkAapWRikBL9qTatGKumhgzWuve9ZBUuZAefppxEP0OQ842vqH5HxlTokHnlnck1W1iTu4yi02jXA6EqhYJhotdZCXwPb1'
 VERIFY_TOKEN = 'TESTINGTOKEN'  # Replace 'VERIFY_TOKEN' with your verify token
 bot = Bot(ACCESS_TOKEN)  # Create an instance of the bot
 
@@ -27,7 +27,7 @@ a5 = "rhino"
 questions = [q1, q2, q3, q4, q5]
 answers = [a1, a2, a3, a4, a5]
 #shuff_index = range(len(questions))
-#random.shuffle(shuff.index)
+#random.shuffle(shuff_index)
 
 # state = "None"
 # correct_count = 0
@@ -68,7 +68,7 @@ def run_program(recipient_id, message):
             # print(str(users))
             send_message(recipient_id, questions[users[recipient_id]["q_index"]])
         else:
-            send_message(recipient_id, "Send \"start quiz\" to start quiz")
+            send_message(recipient_id, "Send \"start quiz\" to start quiz. If you would like to stop the quiz early send \"end quiz.\"")
 
     elif users[recipient_id]["state"] == "start quiz":
         if "end quiz" in message:
@@ -78,7 +78,7 @@ def run_program(recipient_id, message):
             if answers[users[recipient_id]["q_index"]] in message:
                 send_message(recipient_id, correct_response(recipient_id))
             else:
-                send_message(recipient_id, "You response is " + message + ". The correct answer is " + answers[
+                send_message(recipient_id, "Incorrect. Your response is " + message + ". The correct answer is " + answers[
                     users[recipient_id]["q_index"]])
 
             users[recipient_id]["q_index"] += 1
