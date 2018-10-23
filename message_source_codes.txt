@@ -1,0 +1,63 @@
+--------------
+plain text
+--------------
+{
+	u'timestamp': 1537127816747, 
+	u'message': 
+	{
+		u'text': u'efwef', 
+		u'mid': u'lvDQbuDVxSuH93iHfQ6DOWrbuulkKNxX8KDzcycmp165TMFKeroTFkUkgolowUQ0Y1VoSoDq-fcmpulEW7Q8PA', 
+		u'seq': 65165
+	}, 
+	u'recipient': {u'id': u'265711097605404'}, 
+	u'sender': {u'id': u'2024291247627586'}
+}
+---------------
+thumbup
+---------------
+{
+	u'timestamp': 1537127684675, 
+	u'message': 
+		{
+			u'attachments': 
+				[
+					{
+						u'type': u'image', 
+						u'payload': 
+							{
+								u'url': u'https://scontent.xx.fbcdn.net/v/t39.1997-6/39178562_1505197616293642_5411344281094848512_n.png?_nc_cat=1&_nc_ad=z-m&_nc_cid=0&oh=02bbd329c59b516cd606324f12892cc7&oe=5C192C75', 
+								u'sticker_id': 369239263222822
+							}
+					}
+				], 
+			u'mid': u'emjLt1a54ceaQo1rLuIoR2rbuulkKNxX8KDzcycmp16cwZhKdtKqtneMH3QL-V17XEe3bn4COpIMI8VBUlB_Rg',
+			u'seq': 65150, 
+			u'sticker_id': 369239263222822
+		}, 
+	u'recipient': {u'id': u'265711097605404'}, 
+	u'sender': {u'id': u'2024291247627586'}
+}
+--------------
+sticker
+--------------
+{
+	u'timestamp': 1537127849740, 
+	u'message': 
+		{
+			u'attachments': 
+				[
+					{
+						u'type': u'image', 
+						u'payload': 
+							{
+								u'url': u'https://scontent.xx.fbcdn.net/v/t39.1997-6/p100x100/851575_126362190881911_254357215_n.png?_nc_cat=1&_nc_ad=z-m&_nc_cid=0&oh=91eb13abcb1af4b5021893caeadac3cd&oe=5C3498D5', u'sticker_id': 126362187548578
+							}
+					}
+				], 
+			u'mid': u'w6Dc_NIsfwDN7DaxVD_5hGrbuulkKNxX8KDzcycmp14z8uvsR6GSDmvda715gdX0UZYAhD7ihhYTLGAXjwQW9A', 
+			u'seq': 65172, 
+			u'sticker_id': 126362187548578
+		}, 
+	u'recipient': {u'id': u'265711097605404'}, 
+	u'sender': {u'id': u'2024291247627586'}
+}
